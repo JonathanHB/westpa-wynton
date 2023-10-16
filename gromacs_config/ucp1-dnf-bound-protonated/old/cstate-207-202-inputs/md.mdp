@@ -1,0 +1,69 @@
+; production run md parameters
+; charmm-gui recommended params for CHARMM36 membrane simulations with GROMACS
+
+; define              = -DPOSRES_PRODUCTION
+continuation        = yes
+gen_vel             = no
+
+
+; integrator
+integrator          = md
+nsteps              = 250000 ; 2 * 250000 = .5 ns
+dt                  = 0.002 ; 2 fs
+
+; output control
+; uncompressed every 5 ns
+nstxout             = 250000 ; 500 ps
+nstvout             = 250000 ; 500 ps
+nstfout             = 250000 ; 500 ps
+; compressed every 250 ps
+nstxout-compressed  = 125000 ; 250 ps
+; energy logging every 10 ps
+nstcalcenergy       = 500 ; 1 ps
+nstenergy           = 5000 ; 10 ps
+nstlog              = 5000 ; 10 ps
+
+; bonded force parameters
+constraint_algorithm    = lincs
+constraints             = h-bonds
+lincs_iter              = 1 ; accuracy of LINCS
+lincs_order             = 4 ; also related to accuracy
+
+; nonbonded force parameters
+nstlist             = 20
+cutoff-scheme       = Verlet
+ns_type             = grid
+coulombtype         = PME
+pme_order           = 4
+fourierspacing      = 0.12 ; minimum, GROMACS scales this when using -tunepme (default on)
+rcoulomb            = 1.2 ; minimum, GROMACS scales this when using -tunepme (default on)
+vdwtype             = cutoff
+vdw-modifier        = Force-switch ; CHARMM requires Force-switch for vdw
+rvdw-switch         = 1.0 ; start vdw switching
+rvdw                = 1.2 ; finish vdw switching
+DispCorr            = no ; only needed for lipid monolayers
+
+; temperature and pressure
+tcoupl              = v-rescale ; nose-hoover ; nose-hoover does not allow full gpu offloading
+; note that gromacs v-rescale is a stochastic v-rescale thermostat which should reproduce the canonical ensemble
+; tc-grps             = Protein_Lipid   Water_and_ions ; three coupling groups
+tc-grps             = Protein_TLCL2_POPC   SOD_CLA_TIP3	; three coupling groups
+tau-t               = 1.0       1.0; time constant, in ps
+ref-t               = 310.15    310.15 ; reference temperature, one for each group, in K
+; print-nose-hoover-chain-variables   = yes ; write to energy file to maintain state on restart
+
+pcoupl              = Parrinello-Rahman
+pcoupltype          = semiisotropic ; scale xy together for membrane
+tau-p               = 5.0 ; time constant, in ps
+ref-p               = 1.01325   1.01325 ; reference pressure, in bar
+compressibility     = 4.5e-5    4.5e-5 ; isothermal compressibility of water, bar^-1
+refcoord-scaling    = com ; move the restraints centers as the box size changes
+
+; center of mass motion removal
+nstcomm             = 500 ; must be a multiple of nstcalcenergy
+comm_mode           = linear
+; comm_grps           = Protein_Lipid   Water_and_ions
+comm_grps           = Protein_TLCL2_POPC   SOD_CLA_TIP3
+
+; boundary conditions
+pbc                 = xyz ; 3-D PBC

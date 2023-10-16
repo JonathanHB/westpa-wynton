@@ -1,0 +1,42 @@
+
+### INPUT DATA ###
+- Add gromacs input files, such as from charmm-gui. These MUST be named the following:
+  - 'index.ndx': index file
+  - 'input.gro': structure  
+  - 'topol.top': topology file for the system
+  - 'toppar/': directory of other referenced topology files
+  - 'md.mdp': sim parameter file for gromacs 
+
+### WESTPA CONFIG ###
+- In 'bstates/pcoord.init', write the initial pcoord for the starting structure
+- In 'west.cfg', we'll add run options:
+  - under 'west/system/system_options', set 'pcoord_ndim', 'pcoord_len', and 'pcoord_dtype' to the correct values.
+  - also set 'boundaries' to a python list of the edges of the pcoord boxes, including the outermost edges (or, put 'inf' or '-inf' for the first or final box to extend to infinity)
+  - under 'west/system/?', set 'bin_target_counts' to the number of desired walkers per bin.
+  -  also set 'max_total_iterations' to the total number of iterations you want WESTPA to run.
+- 'westpa_scripts/runseg.sh' will run each iteration and call 'westpa_scripts/calc_pcoord.py' to calculate the pcoord of each walker at the end of its iteration. You will likely need to modify 'westpa_scripts/calc_pcoord.py' to return your desired pcoord.
+
+### COMPUTE RESOURCES ###
+- To change how many GPU nodes (or CPUs per GPU node) are run, edit the values in 'run_zmq.sh'
+  - in the header section, the line '#$ -t 1-10' specifies the number of simultaneous nodes that will run. 
+  - The line 'GMX_CPUS=8' specifies the number of CPUs requested per GPU
+  - Im pretty sure this is non-optimal, so someone who knows more than me should look at 'run_zmq.sh' and 'westpa_scripts/runseg.sh' to do this better.
+ 
+### Initialize and run ###
+- make sure you're using the Wynton conda module and westpa-2.0 conda environment:
+  - instructions for this is in the 'conda_env/' directory
+- run WESTPA initialization:
+  - './init.sh'
+- Then, run WESTPA with:
+  - './run_chain.sh -r run_zmq.sh -n 200' where -n specifies the number of sequential Wynton jobs.
+  - This works by calling run_chain.sh, which will link many Wynton jobs together one after the other. Because Wynton kicks a user off of a GPU after 2 hours, this will automatically resume the WESTPA run.
+  - Note: the -n flag for number of WESTPA jobs is NOT the same as the number of WESTPA iterations.
+  - Each wynton job calls 'run_zmq.sh', which creates several sub-jobs as specified in that script.
+  - This way, each iteration is run parallelized, and all iterations run automatically regardless of the GPU time limit on Wynton.
+- when restarting after a walker crashes
+  - remove everything older than the last round in which the walkers all ran successfully
+  - remove the rounds of west.h5 for which walkers crashed (there's a command for this)
+
+#JHB notes
+#folders for run and segment logs were not copied
+#istates folder was found empty

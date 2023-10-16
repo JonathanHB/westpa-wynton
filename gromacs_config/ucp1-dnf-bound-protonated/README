@@ -1,0 +1,2 @@
+this folder is for ucp1 with bound dnp, auto equil run06
+note that input.gro here is auto-gmx-equil-wynton/run06/run_directory/eq19.gro, NOT the equilibration input.gro file

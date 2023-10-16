@@ -1,0 +1,13 @@
+This directory houses data for creating a conda environment for running WESTPA on Wynton.
+
+0) Make sure you're on the development node:
+'ssh dev1'
+
+1) Activate the conda module with:
+'module load CBI miniconda3/4.12.0-py39'
+
+2) Create the westpa-2.0 environment with using the XX.yml:
+'conda env create -f environment.yml'
+
+3) Activate it when you're using WESTPA:
+conda activate westpa-2.0
