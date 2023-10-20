@@ -24,9 +24,10 @@ os.system(f"cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
 #lines signalling fatal error requiring restarts
 #found in the log file in seg_logs/
 error_lines = [\
- 	"Asynchronous H2D copy failed",\
- 	"The total potential energy is nan, which is not finite.",\
- 	"Unexpected cudaStreamQuery failure: an illegal memory access was encountered",\
+	"Asynchronous H2D copy failed",\
+	"Asynchronous D2H copy failed",\
+	"The total potential energy is nan, which is not finite.",\
+	"Unexpected cudaStreamQuery failure: an illegal memory access was encountered",\
 	"Could not register the host memory for page locking for GPU transfers.",\
 	"cudaErrorMemoryAllocation: out of memory"]
 
