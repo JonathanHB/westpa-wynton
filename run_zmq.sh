@@ -5,9 +5,11 @@
 #$ -cwd                 #-- tell the job that it should start in your working directory
 #$ -l mem_free=2G       #-- submits on nodes with enough free memory
 #$ -l h_rt=2:00:00      #-- runtime limit - max 2 weeks == 336 hours
+#$ -N WE_H_a            #-- do not change this without also changing all the associated log archiving scripts
+#$ -t 1-64              #-- number to run at a time
+
+#old settings
 ##$ -l hostname=cc-idgpu[4] #-- request the RTX 2080 Ti nodes
-#$ -N WE_H_a
-#$ -t 1-30              # number to run at a time
 
 ## GPU/CPU stuff
 GMX_CPUS=8
