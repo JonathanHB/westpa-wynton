@@ -34,7 +34,9 @@ error_lines = [\
  	"Unexpected cudaStreamQuery failure: an illegal memory access was encountered",\
 	"Could not register the host memory for page locking for GPU transfers.",\
 	"cudaErrorMemoryAllocation: out of memory",\
-	"bytes failed: out of memory"] #cudaMallocHost of size 4660224 bytes failed: out of memory
+	"bytes failed: out of memory",\
+        "cudaMalloc failure",\
+        "cudaStreamSynchronize failed"] #cudaMallocHost of size 4660224 bytes failed: out of memory
 
 #acquire a list of all files present before the simulation is run
 # these are the files not moved to a storage folder when the run has to be restarted 
