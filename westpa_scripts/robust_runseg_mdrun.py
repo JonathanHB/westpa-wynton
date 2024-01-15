@@ -15,14 +15,17 @@ import os
 round_str = sys.argv[1].split("/")[-2]
 walker_str = sys.argv[1].split("/")[-1]
 
+walker_num = int(walker_str)
+
 #backup west.h5
 #note that this is the file at the start of the round (i.e. west-000005.h5 has the data from rounds 1-4)
 #it is important to run this before any segments can complete so that you don't get part of the current round (i.e. the first 23 walkers of round 5)
-if not os.path.exists(f"../../../h5-backups/west-{round_str}.h5"):
-	os.system(f"cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
-#beware that this does not handle multiple layers of overwriting; it keeps only the most recently replaced file
-else:
-        os.system(f"mv ../../../h5-backups/west-{round_str}.h5 ../../../h5-backups/overwritten-west-{round_str}.h5; cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
+if walker_num == 0:
+	if not os.path.exists(f"../../../h5-backups/west-{round_str}.h5"):
+		os.system(f"cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
+	#beware that this does not handle multiple layers of overwriting; it keeps only the most recently replaced file
+	else:
+			os.system(f"mv ../../../h5-backups/west-{round_str}.h5 ../../../h5-backups/overwritten-west-{round_str}.h5; cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
 
 
 #lines signalling fatal error requiring restarts
@@ -36,7 +39,12 @@ error_lines = [\
 	"cudaErrorMemoryAllocation: out of memory",\
 	"bytes failed: out of memory",\
         "cudaMalloc failure",\
-        "cudaStreamSynchronize failed"] #cudaMallocHost of size 4660224 bytes failed: out of memory
+        "cudaStreamSynchronize failed",\
+        "Synchronous D2H copy failed",\
+        "Synchronous H2D copy failed",\
+        "incompatible GPUs: 0. Request only compatible GPUs."]
+
+#whole error with variable number: cudaMallocHost of size 4660224 bytes failed: out of memory
 
 #acquire a list of all files present before the simulation is run
 # these are the files not moved to a storage folder when the run has to be restarted 
