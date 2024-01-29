@@ -20,6 +20,7 @@ walker_num = int(walker_str)
 #backup west.h5
 #note that this is the file at the start of the round (i.e. west-000005.h5 has the data from rounds 1-4)
 #it is important to run this before any segments can complete so that you don't get part of the current round (i.e. the first 23 walkers of round 5)
+#if we were mor thorough we would explicitly hold all segments until this operation is complete in case walker 0 happens to be running on a particularly slow node
 if walker_num == 0:
 	if not os.path.exists(f"../../../h5-backups/west-{round_str}.h5"):
 		os.system(f"cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
