@@ -59,7 +59,7 @@ for ((n=0; n<180; n++)); do
     sleep 1
 done
 
-# exif it host info doesn't appear in one minute
+# exit if host info doesn't appear in one minute
 if ! [ -e $SERVER_INFO ] ; then
     echo 'server failed to start'
     exit 1
