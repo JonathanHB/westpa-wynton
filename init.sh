@@ -4,8 +4,8 @@
 source env.sh
 
 # Clean up from previous/ failed runs
-rm -rf traj_segs seg_logs run_logs istates west.h5 
-mkdir   seg_logs traj_segs run_logs istates
+rm -rf traj_segs seg_logs run_logs istates h5-backups wynton-logs west.h5 
+mkdir  traj_segs seg_logs run_logs istates h5-backups wynton-logs
 
 # Set pointer to bstate and tstate
 BSTATE_ARGS="--bstate-file $WEST_SIM_ROOT/bstates/bstates.txt"
