@@ -7,7 +7,7 @@
 #$ -l h_rt=2:00:00      #-- runtime limit - max 2 weeks == 336 hours
 #$ -N WE_H_a            #-- do not change this without also changing all the associated log archiving scripts
 #$ -t 1-32              #-- number to run at a time
-#$ -l hostname=!(‘qb3-idgpu11‘|'qb3-idgpu15'|'qb3-idgpu13'|'msg-iogpu6') #--don't run on this gpu, which causes jobs to crash because it lacks a gpu with id 0
+#$ -l hostname=!('qb3-atgpu23'|‘qb3-idgpu11‘|'qb3-idgpu13'|'qb3-idgpu14'|'qb3-idgpu15'|'qb3-iogpu4'|'msg-iogpu3'|'msg-iogpu6'|'msg-iogpu7') #--don't run on this gpu, which causes jobs to crash because it lacks a gpu with id 0
 
 #old settings
 ##$ -l hostname=cc-idgpu[4] #-- request the RTX 2080 Ti nodes
