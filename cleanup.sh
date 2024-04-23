@@ -4,5 +4,5 @@
 # To clean the directory and start a new run, use init.sh
 
 # Clean up from previous/ failed runs
-rm -rf traj_segs seg_logs run_logs istates west.h5 *.log
+rm -rf traj_segs seg_logs run_logs istates h5-backups wynton-logs west.h5 
 

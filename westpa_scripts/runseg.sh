@@ -3,7 +3,6 @@
 #
 
 
-
 # If we are debugging, output a lot of extra information.
 if [ -n "$SEG_DEBUG" ] ; then
     set -x
@@ -75,39 +74,15 @@ echo $GPU_ID
 
 python3 $WEST_SIM_ROOT/westpa_scripts/robust_runseg_mdrun.py $PWD $GMX $OMP_NUM_THREADS $GPU_ID
 
-#N.F.: why are we setting num threads to 3, OMP threads to 3, and thread-MPI to 1? I don't know how these relate to eachother lol
-#$GMX mdrun -s  seg.tpr -o seg.trr -c  seg.gro -e seg.edr \
-#	  -cpi state.cpt -g seg.log -nb gpu -pme gpu -bonded gpu \
-#	  -maxh 2 -cpt 10 -nt $OMP_NUM_THREADS -gpu_id ${GPU_ID} -ntmpi 1
-
-#$GMX mdrun -s  seg.tpr -o seg.trr -c  seg.gro -e seg.edr \
-#          -cpi state.cpt -g seg.log -nb gpu -pme gpu -bonded gpu \
-#          -maxh 2 -cpt 10 -nt 3 -gpu_id ${GPU_ID}
 	  
 ########################## Calculate and return data ###########################
 current_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/calc_pcoord.py seg.trr input.gro)
 echo $current_pcoord > $WEST_PCOORD_RETURN 
 
-#echo '5\n' | $GMX rmsdist \
-#	  -f $WEST_CURRENT_SEG_DATA_REF/seg.trr \
-#	  -s input.gro \
-#	  -o seg_in.xvg \
-#          -xvg none \
-#	  -n index.ndx 
-#echo '6\n' | $GMX rmsdist \
-#	  -f seg.trr \
-#	  -s input.gro \
-#	  -o seg_out.xvg \
-#          -xvg none \
-#	  -n index.ndx 
-#here's where we calculate the pcoord, which I commented out because we don't know it rn lol
-#paste <(cat seg_in.xvg  | tail -n 2 | awk {'print $2'}) <(cat seg_out.xvg | tail -n 2 | awk {'print $2'})>$WEST_PCOORD_RETURN
-
 # Clean up all the files that we don't need to save.
 rm -f topol.top toppar index.ndx input.gro seg.trr parent.gro \
       parent.edr parent.trr seg.tpr md.mdp md_out.mdp state.cpt seg.trr 
-# tar all the output files (redundant with tarring an entire set of directories)
-#tar -cvzf seg.tar.gz seg.gro seg.log seg.edr
 
 #remove old .gro files and tar entire westpa rounds worth of folders
+#this only actually runs for walker 0
 python3 $WEST_SIM_ROOT/westpa_scripts/file_cleanup.py $PWD

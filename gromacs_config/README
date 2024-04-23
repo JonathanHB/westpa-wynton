@@ -1,6 +1,3 @@
-##ucp1 with bound protonated dnp from round 96 walker 650 of westpa-09
-##pcoord 0.213
-
 ucp1 with bound deprotonated dnp; eq08 
 ../../auto-gmx-equil-wynton/run08/run_directory/eq19.gro
 pcoord 0.4726047217845917

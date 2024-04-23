@@ -1,5 +1,6 @@
 import sys
 import os
+from subprocess import check_output
 
 #Jonathan Borowsky
 #10/16/23
@@ -21,6 +22,14 @@ second_round_removed = first_round_removed + 1
 last_round_to_keep = first_round_removed - 1
 
 #---------------------------safety interlock; do not touch------------------------------------
+
+#ensure that this code only runs on dev nodes where w_truncate can run
+
+hostname = check_output("echo $HOSTNAME", shell=True).decode("utf-8").strip() #.split("=")[1]
+if hostname[0:3] != 'dev':
+    print(f"this script must be run on dev nodes rather than {hostname} because w_truncate is not available on others")
+    sys.exit(0)
+
 #verify that we are not removing the round we need to restart from by accident
 round_keep_str = str(last_round_to_keep).zfill(6)
 
