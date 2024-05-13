@@ -11,6 +11,9 @@ round_lag = 3
 #how many rounds of run_logs and SGE job logs to leave untarred
 job_lag = 2
 
+#path to my scratch directory
+scratch_path = "/wynton/scratch/jborowsky/westpa-28d9"
+
 #get current walker number
 walker_num = int(sys.argv[1].split("/")[-1])
 
@@ -42,7 +45,7 @@ if walker_num == 0:
 
 		#doing these in one command ensures that the delete command does not get entered before the tar command is done
 		if not os.path.exists(f"traj_segs/round-{round_tar}-segs.tar.gz") and os.path.exists(f"traj_segs/{round_tar}"):
-			os.system(f"rm traj_segs/{round_tar}/*/seg.gro; tar -czvf traj_segs/round-{round_tar}-segs.tar.gz traj_segs/{round_tar}; rm -r traj_segs/{round_tar}")
+			os.system(f"rm traj_segs/{round_tar}/*/seg.gro; tar -czvf {scratch_path}/round-{round_tar}-segs.tar.gz traj_segs/{round_tar}; rm -r traj_segs/{round_tar}")
 
 
 	#------------------------------------------------------------------------
