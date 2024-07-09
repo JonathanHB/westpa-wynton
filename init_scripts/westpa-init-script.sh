@@ -3,6 +3,9 @@
 # Set up simulation environment
 source env.sh
 
+#get initial progress coordinate value
+echo $(python3 westpa_scripts/calc_pcoord.py gromacs_config/input.gro gromacs_config/input.gro) > bstates/pcoord.init
+
 # Clean up from previous/ failed runs
 rm -rf traj_segs seg_logs run_logs istates h5-backups wynton-logs west.h5 
 mkdir  traj_segs seg_logs run_logs istates h5-backups wynton-logs

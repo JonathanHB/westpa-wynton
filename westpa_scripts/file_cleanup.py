@@ -11,15 +11,15 @@ round_lag = 3
 #how many rounds of run_logs and SGE job logs to leave untarred
 job_lag = 2
 
-#path to my scratch directory
-scratch_path = "/wynton/scratch/jborowsky/westpa-28d9"
-
 #get current walker number
 walker_num = int(sys.argv[1].split("/")[-1])
 
 if walker_num == 0:
 
 	os.chdir("../../../") 
+
+	#path to my scratch directory
+	scratch_path = f"/wynton/scratch/jborowsky/{os.getcwd().split('/')[-1]}"
 	
 	#------------------------------------------------------------------------
 	#tar traj_segs and seg_logs
@@ -27,7 +27,7 @@ if walker_num == 0:
 
 	#get current round number
 	round_num = int(sys.argv[1].split("/")[-2])
-	
+
 	if round_num - round_lag > 0: 
 		
 		#tar seg_logs

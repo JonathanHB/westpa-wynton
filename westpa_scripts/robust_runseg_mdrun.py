@@ -31,7 +31,7 @@ if walker_num == 0:
 		os.system(f"cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
 	#beware that this does not handle multiple layers of overwriting; it keeps only the most recently replaced file
 	else:
-			os.system(f"mv ../../../h5-backups/west-{round_str}.h5 ../../../h5-backups/overwritten-west-{round_str}.h5; cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
+		os.system(f"mv ../../../h5-backups/west-{round_str}.h5 ../../../h5-backups/overwritten-west-{round_str}.h5; cp ../../../west.h5 ../../../h5-backups/west-{round_str}.h5")
 
 t2 = time.time()
 
