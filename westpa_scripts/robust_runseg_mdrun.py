@@ -141,6 +141,11 @@ for run_ind in range(16):
 	else:
 		if run_ind != 0:
 			os.system("echo finished-nc-%s >> ../../../rrm_logs/rrm-%s-%s-err.log" % (run_ind, round_str, walker_str))
+		
+		os.system(f"{sys.argv[2]} trjconv -f traj_comp.xtc -o traj_comp_1frame.xtc -b 20") #will need to be adjusted with segment length specified in mdp file
+		os.system(f"rm traj_comp.xtc")
+		os.system(f"mv traj_comp_1frame.xtc traj_comp.xtc")		
+		
 		break
 
 t4 = time.time()

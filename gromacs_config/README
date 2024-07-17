@@ -1,3 +1,4 @@
-ucp1 with bound deprotonated dnp; eq08 
-../../auto-gmx-equil-wynton/run08/run_directory/eq19.gro
-pcoord 0.4726047217845917
+specify input source here
+
+this folder should contain:
+index.ndx  input.gro  md.mdp  README  topol.top  toppar
