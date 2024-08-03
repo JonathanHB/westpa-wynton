@@ -35,6 +35,9 @@ echo $WEST_CURRENT_SEG_DATA_REF
 # The weighted ensemble algorithm requires that dynamics are stochastic.
 # We'll use the "sed" command to replace the string "RAND" with a randomly
 # generated seed.
+
+#08224 JHB update: I don't think this is necessary because our thermostat 
+#is stochastic and at any rate the string 'RAND' is not present so it does nothing
 sed "s/RAND/$WEST_RAND16/g" \
 	  $WEST_SIM_ROOT/gromacs_config/md.mdp > md.mdp
 
@@ -49,12 +52,16 @@ if [ "$WEST_CURRENT_SEG_INITPOINT_TYPE" = "SEG_INITPOINT_NEWTRAJ" ]; then
     # this is the first iteration
     # based on examples, I think WEST_PARENT_DATA_REF is just the init state?
     ln -sv $WEST_PARENT_DATA_REF ./parent.gro
+    #ln -sv ../../../bstates/ensemble_pcoord.init ./last_ensemble.txt
+
     $GMX grompp -f md.mdp -c parent.gro -p topol.top \
-	  -o seg.tpr -po md_out.mdp -n index.ndx  
+	  -o seg.tpr -po md_out.mdp -n index.ndx   
 else
     # assume this is a continuation, the value should be SEG_INITPOINT_CONTINUES
     ln -sv $WEST_PARENT_DATA_REF/seg.edr ./parent.edr
     ln -sv $WEST_PARENT_DATA_REF/seg.gro ./parent.gro
+    #ln -sv $WEST_PARENT_DATA_REF/ensemble.txt ./last_ensemble.txt
+
     # do we even need this?? ln -sv $WEST_PARENT_DATA_REF/seg.trr ./parent.trr
     # Run the GROMACS preprocessor 
     $GMX grompp -f md.mdp -c parent.gro -e parent.edr -p topol.top \
@@ -76,7 +83,9 @@ python3 $WEST_SIM_ROOT/westpa_scripts/robust_runseg_mdrun.py $PWD $GMX $OMP_NUM_
 
 	  
 ########################## Calculate and return data ###########################
-current_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/calc_pcoord.py seg.trr input.gro)
+config_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/calc_pcoord.py seg.trr input.gro)
+current_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/ha_pcoord.py $config_pcoord $WEST_PARENT_DATA_REF)
+
 echo $current_pcoord > $WEST_PCOORD_RETURN 
 
 # Clean up all the files that we don't need to save.
