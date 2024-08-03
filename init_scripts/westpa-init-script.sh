@@ -5,12 +5,18 @@ source env.sh
 
 #get initial progress coordinate value
 init_pc=$(python3 westpa_scripts/calc_pcoord.py gromacs_config/input.gro gromacs_config/input.gro)
-echo $init_pc > bstates/pcoord.init
+#echo $init_pc > bstates/pcoord.init
 
 #get initial ensemble value if applicable
-if [ "$1" = "1" ]; then
-    echo $(python3 westpa_scripts/pc_2_macrostate.py $init_pc) > bstates/ensemble.txt
+if [ $1 == 1 ]; then
+    ensemble=$(python3 westpa_scripts/pc_2_macrostate.py $init_pc)
+    echo $ensemble > bstates/ensemble.txt
 else
+    ensemble=""
+fi
+
+echo $init_pc $ensemble > bstates/pcoord.init
+
 
 # Clean up from previous/ failed runs
 rm -rf traj_segs seg_logs run_logs istates h5-backups wynton-logs west.h5 
@@ -24,4 +30,4 @@ BSTATE_ARGS="--bstate-file $WEST_SIM_ROOT/bstates/bstates.txt"
 w_init \
   $BSTATE_ARGS \
   --segs-per-state 5 \
-  --work-manager=threads "$@"
+  --work-manager=threads  # "$@"

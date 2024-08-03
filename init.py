@@ -13,9 +13,9 @@ else:
     if not os.path.exists(scratch_path):
         os.mkdir(scratch_path)
 
-    if os.path.exists("../../../westpa_scripts/pc_2_macrostate.py"):
-        ha_flag = "1"
+    if os.path.exists("westpa_scripts/pc_2_macrostate.py"):
+        ha_flag = 1
     else:
-        ha_flag = "0"
+        ha_flag = 0
         
     os.system(f"bash init_scripts/westpa-init-script.sh {ha_flag}")
