@@ -1,22 +1,21 @@
 #!/bin/bash
 
-# Set up simulation environment
-source env.sh
-
 #get initial progress coordinate value
-init_pc=$(python3 westpa_scripts/calc_pcoord.py gromacs_config/input.gro gromacs_config/input.gro)
+echo $(python3 westpa_scripts/ha_pcoord.py gromacs_config/input.gro gromacs_config/input.gro gromacs_config/input.gro) > bstates/pcoord.init
 #echo $init_pc > bstates/pcoord.init
 
 #get initial ensemble value if applicable
-if [ $1 == 1 ]; then
-    ensemble=$(python3 westpa_scripts/pc_2_macrostate.py $init_pc)
-    echo $ensemble > bstates/ensemble.txt
-else
-    ensemble=""
-fi
+# if [ $1 == 1 ]; then
+#     ensemble=$(python3 westpa_scripts/pc_2_macrostate.py $init_pc)
+#     echo $ensemble > bstates/ensemble.txt
+# else
+#     ensemble=""
+# fi
 
-echo $init_pc $ensemble > bstates/pcoord.init
+# echo $init_pc $ensemble > bstates/pcoord.init
 
+# Set up simulation environment
+source env.sh
 
 # Clean up from previous/ failed runs
 rm -rf traj_segs seg_logs run_logs istates h5-backups wynton-logs west.h5 
