@@ -18,12 +18,11 @@ def pc_2_macrostate(pc):
     if pc[0] > pc0_max: 
         macrostate = 0
     elif pc[0] < pc0_min:
-        macrostate = int(np.round(pc[1])+1)
+        macrostate = int(round(pc[1])+1)
     else:
         macrostate = -1
         
     return macrostate
 
 
-
-print(pc_2_macrostate([float(i) for i in sys.argv[1].strip().split(" ")]))
+#return pc_2_macrostate([float(i) for i in sys.argv[1].strip().split(" ")])

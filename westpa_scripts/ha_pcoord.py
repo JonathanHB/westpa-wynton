@@ -5,6 +5,7 @@ from calc_pcoord import calc_pcoord
 config_pc = calc_pcoord(sys.argv[1], sys.argv[2])
 
 config_pc_string = " ".join([str(i) for i in config_pc])
+
 # if we are not doing history augmented binning, 
 # pass the configurational progress coordinate, 
 # which is the entire progress coordinate, to output
@@ -30,14 +31,17 @@ else:
         if sys.argv[3][-4:] == ".gro":
             f = open("../../../bstates/pcoord.init", 'r')
             ensemble = [line for line in f][0].strip().split(" ")[-1]
+            f.close()
         #subsequent rounds
         else:
             f = open(f"{sys.argv[3]}/ensemble.txt", 'r')
             ensemble = [line for line in f][0].strip()
+            f.close()
 
     #write the ensemble to a text file
-    f = open(f"ensemble.txt", 'w')
-    f.write(ensemble)
+    f2 = open(f"ensemble.txt", 'x')
+    f2.write(ensemble)
+    f2.close()
 
     # add the history augmented progress coordinate 
     # to the regular one as an extra dimension
