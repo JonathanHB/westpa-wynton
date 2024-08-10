@@ -83,8 +83,8 @@ python3 $WEST_SIM_ROOT/westpa_scripts/robust_runseg_mdrun.py $PWD $GMX $OMP_NUM_
 
 	  
 ########################## Calculate and return data ###########################
-config_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/calc_pcoord.py seg.trr input.gro)
-current_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/ha_pcoord.py $config_pcoord $WEST_PARENT_DATA_REF)
+#config_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/calc_pcoord.py seg.trr input.gro)
+current_pcoord=$(python3 $WEST_SIM_ROOT/westpa_scripts/ha_pcoord.py seg.trr input.gro $WEST_PARENT_DATA_REF)
 
 echo $current_pcoord > $WEST_PCOORD_RETURN 
 
