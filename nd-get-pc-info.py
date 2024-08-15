@@ -1,12 +1,12 @@
 #Jonathan Borowsky
-
+#updated 5/15/24
 #westpa progress coordinate data aggregation
 
 import sys
 import os
 
 #round_n = sys.argv[1]
-pcoord_dim = 1
+pcoord_dim = 2
 
 seg_logs = os.listdir("./seg_logs/")
 linehead = "+ current_pcoord"
@@ -38,7 +38,7 @@ def printpcoords(round_n):
                     
                     
                     try:
-                        pcoord = [round(float(pcc), 3) for pcc in pcoord_str.split(" ")]
+                        pcoord = [round(float(pcc), 3) for pcc in pcoord_str[1:-1].split(" ")]
                     except:
                         print("error parsing walker %s; pcoord string %s" % (walker_ids[-1], pcoord_str))
                         #print(walker_ids[-1])
@@ -61,12 +61,20 @@ def printpcoords(round_n):
 
     for pci, pc in enumerate(pcoords):
         if pci == 0: #for the z progress coordinate
-            pc2 = [pcx for pcx in pc if pcx != 3]
+            pc2 = pc #[pcx for pcx in pc if pcx != 3]
+            
+            if True:
+                for i, p in enumerate(pc):
+                    if p < .33:
+                        print("--------")
+                        print(pcoords[0][i])
+                        print(pcoords[1][i])
+                        print(walker_ids[i])
         else:
             pc2 = pc
 	
-        print(min(pc))
-        print(min(pc2))
+        #print(min(pc))
+        #print(min(pc2))
         #if pc == 0:
         #    continue
         #pcmins.append(min(pc))
@@ -84,7 +92,7 @@ def printpcoords(round_n):
     return True
 
 
-for i in range(1, 9999):
+for i in range(1, 999):
     if not printpcoords(i):
         break
 
