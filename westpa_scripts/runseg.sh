@@ -93,5 +93,5 @@ rm -f topol.top toppar index.ndx input.gro seg.trr parent.gro \
       parent.edr parent.trr seg.tpr md.mdp md_out.mdp state.cpt seg.trr 
 
 #remove old .gro files and tar entire westpa rounds worth of folders
-#this only actually runs for walker 0
+#this only actually runs for walker 0 and should probably only be called for it
 python3 $WEST_SIM_ROOT/westpa_scripts/file_cleanup.py $PWD

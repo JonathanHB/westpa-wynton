@@ -73,7 +73,7 @@ for run_ind in range(16):
 	tgmx1 = time.time()
 
 	gmx_mdr_out = os.system("export CUDA_VISIBLE_DEVICES=$SGE_GPU; %s mdrun -s  seg.tpr -o seg.trr -c  seg.gro -e seg.edr \
-	  -cpi state.cpt -g seg.log -nb gpu -pme gpu -bonded gpu \
+	  -cpi state.cpt -g seg.log -nb gpu -pme gpu -bonded gpu -update gpu \
 	  -maxh 2 -cpt 10 -nt %s -ntmpi 1" % (sys.argv[2], sys.argv[3])) 
 	  # -gpu_id %s , sys.argv[4]
 	  # -gpu_id $SGE_GPU

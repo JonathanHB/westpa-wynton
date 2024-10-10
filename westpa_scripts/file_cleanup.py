@@ -14,13 +14,20 @@ job_lag = 2
 #get current walker number
 walker_num = int(sys.argv[1].split("/")[-1])
 
+#this if statement should probably go in the script that calls this to reduce the number of script calls
 if walker_num == 0:
 
 	os.chdir("../../../") 
 
 	#path to my scratch directory
 	scratch_path = f"/wynton/scratch/jborowsky/{os.getcwd().split('/')[-1]}"
-	
+        
+        #make scratch folder if necessary
+        # this is usually unnecessary because init.py has already made this folder, 
+        # but when westpa runs are copied to branch them a new folder is needed and forgetting to make it leads to data loss
+        if not os.path.exists(scratch_path):
+            os.mkdir(scratch_path)
+
 	#------------------------------------------------------------------------
 	#tar traj_segs and seg_logs
 	#------------------------------------------------------------------------
