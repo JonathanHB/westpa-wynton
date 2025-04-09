@@ -101,7 +101,7 @@ print("restarting westpa")
 if len(sys.argv) > 3+argshift:
     n_rounds = sys.argv[3+argshift]
 else:
-    n_rounds = 100 #default
+    n_rounds = 32 #default
 
 restart_commands = [\
     "module load CBI miniconda3/4.12.0-py39",\

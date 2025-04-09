@@ -7,7 +7,7 @@
 # a = id to 
 
 add_id=""
-num_reps=3  # set a max num?
+num_reps=32  # set a max num?
 runscript="this_script_does_not_exist.sh"
 
 while getopts r:n:a: OPT; do
